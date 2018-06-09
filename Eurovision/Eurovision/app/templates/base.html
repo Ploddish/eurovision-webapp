@@ -1,34 +1,25 @@
 ﻿{% extends 'bootstrap/base.html' %}
 
 {% block title %}
-    {% if title %}{{ title }} - Eurovision!{% else %}Welcome to the Eurovision{% endif %}
+	{% if title %}{{ title }} - Eurovision!{% else %}Welcome to Eurovision{% endif %}
 {% endblock %}
 
 {% block navbar %}
 <nav class="navbar navbar-default">
 	<div class="container">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="{{ url_for('main.index') }}">Eurovision</a>
+			<a class="navbar-brand" href="{{ url_for('main.index') }}">
+				<img src="/static/icon.png" style="width:20%; margin-top: -10px;"/>
+			</a>
 		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li><a href="{{ url_for('main.index') }}">Home</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				{% if current_user.is_anonymous %}
-				<li><a href="{{ url_for('auth.login') }}">Login</a></li>
-				{% else %}
-				<li><a href="{{ url_for('main.user', username=current_user.username) }}">{{current_user.username}}</a></li>
-				<li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-				{% endif %}
-			</ul>
-		</div>
+		<ul class="nav navbar-nav navbar-right">
+			{% if current_user.is_anonymous %}
+			<li><a href="{{ url_for('auth.login') }}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>  Login</a></li>
+			{% else %}
+			<li><a href="{{ url_for('main.user', username=current_user.username) }}"><img src="{{ current_user.avatar(20) }}"> {{current_user.username}}</a></li>
+			<li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+			{% endif %}
+		</ul>
 	</div>
 </nav>
 {% endblock %}

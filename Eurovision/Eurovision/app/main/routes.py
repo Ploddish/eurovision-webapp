@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_required
 from app.main import bp
 from app.main.forms import EditProfileForm
@@ -33,7 +33,7 @@ def edit_profile():
 		current_user.about_me = form.about_me.data
 		db.session.commit()
 		flash('Your changes have been saved.')
-		return redirect(url_for('main.edit_profile'))
+		return redirect(url_for('main.user', username=current_user.username))
 	elif request.method == 'GET':
 		form.username.data = current_user.username
 		form.about_me.data = current_user.about_me

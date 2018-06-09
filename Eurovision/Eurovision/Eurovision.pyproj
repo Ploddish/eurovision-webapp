@@ -17,6 +17,7 @@
     <Name>Eurovision</Name>
     <RootNamespace>Eurovision</RootNamespace>
     <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <WebBrowserPort>80</WebBrowserPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +42,7 @@
     <Folder Include="app\" />
     <Folder Include="app\main\" />
     <Folder Include="app\auth\" />
+    <Folder Include="app\static\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\auth\" />
     <Folder Include="app\templates\errors\" />
@@ -85,14 +87,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\static\icon.png" />
     <Content Include="app\templates\auth\login.html" />
     <Content Include="app\templates\auth\register.html" />
     <Content Include="app\templates\auth\reset_password.html" />
     <Content Include="app\templates\auth\reset_password_request.html" />
     <Content Include="app\templates\base.html" />
+    <Content Include="app\templates\edit_profile.html" />
     <Content Include="app\templates\email\reset_password.html" />
     <Content Include="app\templates\email\reset_password.txt" />
     <Content Include="app\templates\index.html" />
+    <Content Include="app\templates\user.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 
