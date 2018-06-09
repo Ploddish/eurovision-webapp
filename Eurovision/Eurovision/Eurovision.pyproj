@@ -40,9 +40,31 @@
   <ItemGroup>
     <Folder Include="app\" />
     <Folder Include="app\main\" />
+    <Folder Include="app\auth\" />
     <Folder Include="app\templates\" />
+    <Folder Include="app\templates\auth\" />
+    <Folder Include="app\templates\errors\" />
+    <Folder Include="app\templates\email\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="app\auth\email.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\auth\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\auth\routes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\auth\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\email.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\main\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\main\routes.py">
       <SubType>Code</SubType>
     </Compile>
@@ -58,8 +80,18 @@
     <Compile Include="eurovision.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app\models.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\templates\auth\login.html" />
+    <Content Include="app\templates\auth\register.html" />
+    <Content Include="app\templates\auth\reset_password.html" />
+    <Content Include="app\templates\auth\reset_password_request.html" />
+    <Content Include="app\templates\base.html" />
+    <Content Include="app\templates\email\reset_password.html" />
+    <Content Include="app\templates\email\reset_password.txt" />
     <Content Include="app\templates\index.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
