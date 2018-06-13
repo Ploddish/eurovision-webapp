@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
+from wtforms.fields.html5 import DecimalRangeField
 from wtforms import StringField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired, ValidationError, Length
+from wtforms.validators import DataRequired, ValidationError, Length, NumberRange
 from app.models import User
 
 class EditProfileForm(FlaskForm):
@@ -17,3 +18,7 @@ class EditProfileForm(FlaskForm):
 			user = User.query.filter_by(username=self.username.data).first()
 			if user is not None:
 				raise ValidationError('Please use a different username.')
+
+class VoteForm(FlaskForm):
+	vote_value = DecimalRangeField('Vote', validators=[NumberRange(min=0, max=12, message='Vote!')])
+	submit = SubmitField('Vote!')

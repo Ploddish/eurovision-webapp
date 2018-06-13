@@ -98,6 +98,7 @@
     <Content Include="app\templates\email\reset_password.txt" />
     <Content Include="app\templates\index.html" />
     <Content Include="app\templates\user.html" />
+    <Content Include="app\templates\_vote.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 

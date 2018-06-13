@@ -60,3 +60,13 @@ class User(UserMixin, db.Model):
 @login.user_loader
 def load_user(id):
 	return User.query.get(int(id))
+
+class Vote():
+	song_name = ""
+	song_artist = ""
+	country_name = ""
+
+	def __init__(self, song_name, song_artist, country_name):
+		self.song_name = song_name
+		self.song_artist = song_artist
+		self.country_name = country_name

@@ -1,10 +1,11 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, send_from_directory, current_app
 from flask_login import current_user, login_required
 from app.main import bp
-from app.main.forms import EditProfileForm
-from app.models import User
+from app.main.forms import EditProfileForm, VoteForm
+from app.models import User, Vote
 from datetime import datetime
 from app import db
+import os
 
 @bp.before_request
 def before_request():
@@ -12,11 +13,18 @@ def before_request():
 		current_user.last_seen = datetime.utcnow()
 		db.session.commit()
 
+@bp.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(current_app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-	return render_template('index.html', title='Home')
+	votes = [Vote("Under the Ladder", "Mélovin", "Ukraine"),
+			Vote("Our Choice", "Ari Ólafsson", "Iceland")]
+	form = VoteForm()
+	return render_template('index.html', title='Home', form=form, votes=votes)
 
 @bp.route('/user/<username>')
 @login_required
