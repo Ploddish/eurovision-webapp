@@ -2,11 +2,9 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-	<div class="alert alert-info" role="alert">Time left in song : 02:39</div>
+	
 
-	{% for vote in votes %}
+	{% for song in songs %}
 		{% include '_vote.html' %}
 	{% endfor %}
 {% endblock %}
-
-Iceland – Ari Ólafsson “Our Choice”

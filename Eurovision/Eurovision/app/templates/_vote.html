@@ -1,12 +1,20 @@
 ﻿
 <div class="well">
 	<table class="table table-hover">
+		{% if not song_finished %}
+			<tr><div class="alert alert-info" role="alert">Time left in song : {{ time_left }} seconds </div></tr>
+		{% else %}
+			<tr><div class="alert alert-success" role="alert">Song has finished </div></tr>
+		{% endif %}
+		
+		<tr><h2>{{ song.country }}</h2></tr>
 		<tr>
 			<td>
-				<h2>{{ vote.song_name }} - {{ vote.song_artist }} ({{ vote.country_name }})</h2>
+				<h3>{{ song.name }} - {{ song.artist }}</h3>
 			</td>
 		<tr>
-			<td>{{ form.vote_value }}</td><td width="70px">{{ form.submit }}</td>
+			<td>{{ form.vote_value }}</td>
+			<td width="70px">{{ form.submit }}</td>
 		</tr>
 	</table>
 </div>

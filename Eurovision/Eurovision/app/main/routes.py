@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request, send_from_
 from flask_login import current_user, login_required
 from app.main import bp
 from app.main.forms import EditProfileForm, VoteForm
-from app.models import User, Vote
+from app.models import User, Vote, Song
 from datetime import datetime
 from app import db
 import os
@@ -21,10 +21,38 @@ def favicon():
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-	votes = [Vote("Under the Ladder", "Mélovin", "Ukraine"),
-			Vote("Our Choice", "Ari Ólafsson", "Iceland")]
+	songs = [
+			Song("Ukraine",			"Mélovin",						"Under the Ladder",	 			179	),
+			Song("Spain",			"Amaia & Alfred",				"Tu Canción",					179	),
+			Song("Slovenia",		"Lea Sirk",						"Hvala ne!",					180	),
+			Song("Lithuania",		"Ieva Zasimauskaité",			"When We're Old",			 	180	),
+			Song("Austria",			"Cesár Sampson",				"Nobody But You",			 	183	),
+			Song("Estonia",			"Elina Nechayeva",				"La forza",		 				184	),
+			Song("Norway",			"Alexander Rybak",				"That's How You Write A Song",	180	),
+			Song("Portugal",		"Cláudia Pascoal",				"O jardim",						138	),
+			Song("United Kingdom",	"SuRie",						"Storm",						177	),
+			Song("Serbia",			"Sanja Ilic & Balkanika",		"Nova Deca",				 	187	),
+			Song("Germany",			"Michael Schulte",				"You Let Me Walk Alone",		177	),
+			Song("Albania",			"Eugent Bushpepa",				"Mall",		 					187	),
+			Song("France",			"Madame Monsieur",				"Mercy",						182	),
+			Song("Czech Republic",	"Mikolas Josef",				"Lie To Me",				 	170	),
+			Song("Denmark",			"Rasmussen",					"Higher Ground",				183	),
+			Song("Australia",		"Jessica Mauboy",				"We Got Love",		 			184	),
+			Song("Finland",			"Saara Aalto",					"Monsters",						180	),
+			Song("Bulgaria",		"Equinox",						"Bones",						179	),
+			Song("Moldova",			"DoReDoS",						"My Lucky Day",				 	182	),
+			Song("Sweden",			"Benjamin Ingrosso",			"Dance You Off",			 	180	),
+			Song("Hungary",			"AWS",							"Viszlát nyár",					177	),
+			Song("Israel",			"Netta",						"Toy",							180	),
+			Song("Netherlands",		"Waylon",						"Outlaw in 'Em",			 	176	),
+			Song("Ireland",			"Ryan O'Shaughnessy",			"Together",						176	),
+			Song("Cyprus",			"Eieni Foureira",				"Fuego",						183	),
+			Song("Italy",			"Ermal Meta & Fabrizio Moro",	"Non mi avete fatto niente",	182	),
+			]
+
+
 	form = VoteForm()
-	return render_template('index.html', title='Home', form=form, votes=votes)
+	return render_template('index.html', title='Home', song_finished=True, form=form, songs=songs, time_left=60)
 
 @bp.route('/user/<username>')
 @login_required

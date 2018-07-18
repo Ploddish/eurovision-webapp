@@ -15,6 +15,8 @@ class User(UserMixin, db.Model):
 	about_me = db.Column(db.String(140))
 	last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 	last_message_read_time = db.Column(db.DateTime)
+
+	user_votes = db.relationship('Vote', backref='voter', lazy='dynamic')
 	
 	def avatar(self, size):
 		digest = md5(self.email.lower().encode('utf-8')).hexdigest()
@@ -61,12 +63,22 @@ class User(UserMixin, db.Model):
 def load_user(id):
 	return User.query.get(int(id))
 
-class Vote():
-	song_name = ""
-	song_artist = ""
-	country_name = ""
+class Vote(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	song_id = db.Column(db.Integer, db.ForeignKey("song.id"))
+	vote_time = db.Column(db.DateTime, default=datetime.utcnow)
+	voter_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
-	def __init__(self, song_name, song_artist, country_name):
-		self.song_name = song_name
-		self.song_artist = song_artist
-		self.country_name = country_name
+class Song(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(64), index=True, unique=True)
+	artist = db.Column(db.String(64), index=True)
+	country = db.Column(db.String(30), index=True, unique=True)
+	length = db.Column(db.Integer)
+	time_started = db.Column(db.DateTime)
+
+	def __init__(self, country_name, song_artist, song_name, length):
+		self.name = song_name
+		self.artist = song_artist
+		self.country = country_name
+		self.length = length
