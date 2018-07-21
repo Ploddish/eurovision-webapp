@@ -6,15 +6,19 @@
 		{% else %}
 			<tr><div class="alert alert-success" role="alert">Song has finished </div></tr>
 		{% endif %}
-		
-		<tr><h2>{{ song.country }}</h2></tr>
+
 		<tr>
-			<td>
-				<h3>{{ song.name }} - {{ song.artist }}</h3>
-			</td>
+			<h2>{{ song.country }}</h2>
+		</tr>
 		<tr>
-			<td>{{ form.vote_value }}</td>
-			<td width="70px">{{ form.submit }}</td>
+			<h3>{{ song.name }} - {{ song.artist }}</h3>
+		</tr>
+		<tr>
+			<form action="" method="post" novalidate>
+				{{ form[loop.index].csrf_token }}
+				<td>{{ form[loop.index].vote(min=0, max=12) }}</td>
+				<td width="70px">{{ form[loop.index].submit() }}</td>
+			</form>
 		</tr>
 	</table>
 </div>

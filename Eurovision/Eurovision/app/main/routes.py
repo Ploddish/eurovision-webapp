@@ -7,20 +7,8 @@ from datetime import datetime
 from app import db
 import os
 
-@bp.before_request
-def before_request():
-	if current_user.is_authenticated:
-		current_user.last_seen = datetime.utcnow()
-		db.session.commit()
 
-@bp.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(current_app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
-@bp.route('/', methods=['GET', 'POST'])
-@bp.route('/index', methods=['GET', 'POST'])
-@login_required
-def index():
+def fill_db_with_data():
 	songs = [
 			Song("Ukraine",			"Mélovin",						"Under the Ladder",	 			179	),
 			Song("Spain",			"Amaia & Alfred",				"Tu Canción",					179	),
@@ -47,12 +35,51 @@ def index():
 			Song("Netherlands",		"Waylon",						"Outlaw in 'Em",			 	176	),
 			Song("Ireland",			"Ryan O'Shaughnessy",			"Together",						176	),
 			Song("Cyprus",			"Eieni Foureira",				"Fuego",						183	),
-			Song("Italy",			"Ermal Meta & Fabrizio Moro",	"Non mi avete fatto niente",	182	),
+			Song("Italy",			"Ermal Meta & Fabrizio Moro",	"Non mi avete fatto niente",	182	)
 			]
 
+	for song in songs:
+		print("Actually Adding Song ", song.name)
+		db.session.add(song)
 
-	form = VoteForm()
-	return render_template('index.html', title='Home', song_finished=True, form=form, songs=songs, time_left=60)
+	db.session.commit()
+
+
+@bp.before_request
+def before_request():
+	if current_user.is_authenticated:
+		current_user.last_seen = datetime.utcnow()
+		db.session.commit()
+
+@bp.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(current_app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+@bp.route('/', methods=['GET', 'POST'])
+@bp.route('/index', methods=['GET', 'POST'])
+@login_required
+def index():
+	
+#	fill_db_with_data()
+
+	current_song_index = 3	# where we are in the running order
+
+	all_songs = Song.get_all_songs_before_and_including(current_song_index)
+
+	form = []	# dunno if I need all this but eh
+
+	for i, song in enumerate(all_songs):
+		pref = "{}".format(song.id)
+		form.append(VoteForm(prefix=pref))
+
+		if form[i].validate_on_submit():
+			vote = Vote(form[i].vote.data, song.id, current_user.id)
+			print("Adding vote for", song.name, " (id) ", song.id, " for user ", current_user.username, " with value ", form[i].vote.data)
+
+			db.session.add(vote)
+			db.session.commit()
+	
+	return render_template('index.html', title='Home', song_finished=True, form=form, songs=all_songs, time_left=60)
 
 @bp.route('/user/<username>')
 @login_required
@@ -75,3 +102,19 @@ def edit_profile():
 		form.about_me.data = current_user.about_me
 	return render_template('edit_profile.html', title='Edit Profile',
 						   form=form)
+
+@bp.route('/send_message/<song_id>', methods=['GET', 'POST'])
+@login_required
+def vote(song_to_vote_for):
+	user = User.query.filter_by(username=recipient).first_or_404()
+	form = MessageForm()
+	if form.validate_on_submit():
+		msg = Message(author=current_user, recipient=user,
+					  body=form.message.data)
+		db.session.add(msg)
+		user.add_notification('unread_message_count', user.new_messages())
+		db.session.commit()
+		flash('Your message has been sent.')
+		return redirect(url_for('main.user', username=recipient))
+	return render_template('send_message.html', title='Send Message',
+						   form=form, recipient=recipient)

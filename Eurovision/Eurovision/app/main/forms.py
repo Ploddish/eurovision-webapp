@@ -20,5 +20,5 @@ class EditProfileForm(FlaskForm):
 				raise ValidationError('Please use a different username.')
 
 class VoteForm(FlaskForm):
-	vote_value = IntegerRangeField('Vote', validators=[NumberRange(min=0, max=12, message='Vote!')])
+	vote = IntegerRangeField('test', default=0)
 	submit = SubmitField('Vote!')

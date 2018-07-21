@@ -14,7 +14,6 @@ class User(UserMixin, db.Model):
 	password_hash = db.Column(db.String(128))
 	about_me = db.Column(db.String(140))
 	last_seen = db.Column(db.DateTime, default=datetime.utcnow)
-	last_message_read_time = db.Column(db.DateTime)
 
 	user_votes = db.relationship('Vote', backref='voter', lazy='dynamic')
 	
@@ -35,6 +34,8 @@ class User(UserMixin, db.Model):
 		return jwt.encode(
 			{'reset_password': self.id, 'exp': time() + expires_in},
 			app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+	
 
 	@staticmethod
 	def verify_reset_password_token(token):
@@ -65,9 +66,19 @@ def load_user(id):
 
 class Vote(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
+	vote_value = db.Column(db.Integer)
 	song_id = db.Column(db.Integer, db.ForeignKey("song.id"))
 	vote_time = db.Column(db.DateTime, default=datetime.utcnow)
 	voter_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+	
+	def __repr__(self):
+		return '<Vote {}>'.format(self.id)
+
+	def __init__(self, value, song_id, voter_id):
+		self.vote_value = value
+		self.song_id = song_id
+		self.voter_id = voter_id
+		
 
 class Song(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -76,6 +87,18 @@ class Song(db.Model):
 	country = db.Column(db.String(30), index=True, unique=True)
 	length = db.Column(db.Integer)
 	time_started = db.Column(db.DateTime)
+
+	def get_all_songs():
+		return Song.query.all()
+
+	def get_all_songs_before_and_including(song_index=1):
+		return Song.query.filter(Song.id <= song_index).all()
+
+	#def get_all_songs_voted_for(self, user):
+
+	
+	def __repr__(self):
+		return '<Song {}>'.format(self.name)
 
 	def __init__(self, country_name, song_artist, song_name, length):
 		self.name = song_name

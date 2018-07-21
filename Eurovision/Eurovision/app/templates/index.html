@@ -2,9 +2,40 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-	
 
 	{% for song in songs %}
+	{#
 		{% include '_vote.html' %}
+	#}
+
+		<div class="well">
+			<table class="table table-hover">
+				{% if not song_finished %}
+				<tr><div class="alert alert-info" role="alert">Time left in song : {{ time_left }} seconds </div></tr>
+				{% else %}
+				<tr><div class="alert alert-success" role="alert">Song has finished </div></tr>
+				{% endif %}
+
+				<tr>
+					<h2>{{ song.country }}</h2>
+				</tr>
+				<tr>
+					<h3>{{ song.name }} - {{ song.artist }}</h3>
+				</tr>
+				<tr>
+					<form action="" method="post" novalidate>
+						{{ form[loop.index0].csrf_token }}
+						<td>{{ form[loop.index0].vote(min=0, max=12) }}</td>
+						<td width="70px">{{ form[loop.index0].submit() }}</td>
+					</form>
+				</tr>
+			</table>
+		</div>
 	{% endfor %}
+
+	{% if songs.__len__() == 0 %}
+<div class="alert alert-danger" role="alert">No Songs in Database</div>
+	{% endif %}
+
+<h2>Bottom of the page.</h2>
 {% endblock %}
