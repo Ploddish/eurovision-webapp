@@ -78,6 +78,13 @@ class Vote(db.Model):
 		self.vote_value = value
 		self.song_id = song_id
 		self.voter_id = voter_id
+
+	def has_voted_for_song(song_id, voter_id):
+		vote_count = Vote.query.filter(Vote.song_id == song_id).\
+			filter(Vote.voter_id == voter_id).count()
+
+		return vote_count > 0
+
 		
 
 class Song(db.Model):
@@ -87,6 +94,7 @@ class Song(db.Model):
 	country = db.Column(db.String(30), index=True, unique=True)
 	length = db.Column(db.Integer)
 	time_started = db.Column(db.DateTime)
+	country_flag = db.Column(db.String(10))
 
 	def get_all_songs():
 		return Song.query.all()
@@ -100,8 +108,9 @@ class Song(db.Model):
 	def __repr__(self):
 		return '<Song {}>'.format(self.name)
 
-	def __init__(self, country_name, song_artist, song_name, length):
+	def __init__(self, country_name, song_artist, song_name, length, flag):
 		self.name = song_name
 		self.artist = song_artist
 		self.country = country_name
 		self.length = length
+		self.country_flag = flag

@@ -1,24 +1,22 @@
 ﻿
-<div class="well">
-	<table class="table table-hover">
-		{% if not song_finished %}
-			<tr><div class="alert alert-info" role="alert">Time left in song : {{ time_left }} seconds </div></tr>
-		{% else %}
-			<tr><div class="alert alert-success" role="alert">Song has finished </div></tr>
-		{% endif %}
 
-		<tr>
-			<h2>{{ song.country }}</h2>
-		</tr>
-		<tr>
-			<h3>{{ song.name }} - {{ song.artist }}</h3>
-		</tr>
-		<tr>
-			<form action="" method="post" novalidate>
-				{{ form[loop.index].csrf_token }}
-				<td>{{ form[loop.index].vote(min=0, max=12) }}</td>
-				<td width="70px">{{ form[loop.index].submit() }}</td>
-			</form>
-		</tr>
-	</table>
+<div class="card">
+	
+	<div class="card-header">
+		{{ song.country }} {{ song.country_flag }}
+	</div>
+	
+	<div class="card-body">
+		<div class="card-title">{{ song.name }} - {{ song.artist }}</div>
+
+		<form id="{{vote_index}}" action="" method="post" novalidate>
+			{{ form[vote_index].csrf_token }}
+			{{ form[vote_index].vote(min=1, max=12, oninput="this.form.") }}
+
+			<output name="output" form="{{vote_index}}" for="{{ form[vote_index].vote.name }}">0</output>
+
+			{{ form[vote_index].submit() }}
+		</form>
+	</div>
 </div>
+

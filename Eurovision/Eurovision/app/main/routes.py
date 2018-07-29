@@ -10,32 +10,32 @@ import os
 
 def fill_db_with_data():
 	songs = [
-			Song("Ukraine",			"Mélovin",						"Under the Ladder",	 			179	),
-			Song("Spain",			"Amaia & Alfred",				"Tu Canción",					179	),
-			Song("Slovenia",		"Lea Sirk",						"Hvala ne!",					180	),
-			Song("Lithuania",		"Ieva Zasimauskaité",			"When We're Old",			 	180	),
-			Song("Austria",			"Cesár Sampson",				"Nobody But You",			 	183	),
-			Song("Estonia",			"Elina Nechayeva",				"La forza",		 				184	),
-			Song("Norway",			"Alexander Rybak",				"That's How You Write A Song",	180	),
-			Song("Portugal",		"Cláudia Pascoal",				"O jardim",						138	),
-			Song("United Kingdom",	"SuRie",						"Storm",						177	),
-			Song("Serbia",			"Sanja Ilic & Balkanika",		"Nova Deca",				 	187	),
-			Song("Germany",			"Michael Schulte",				"You Let Me Walk Alone",		177	),
-			Song("Albania",			"Eugent Bushpepa",				"Mall",		 					187	),
-			Song("France",			"Madame Monsieur",				"Mercy",						182	),
-			Song("Czech Republic",	"Mikolas Josef",				"Lie To Me",				 	170	),
-			Song("Denmark",			"Rasmussen",					"Higher Ground",				183	),
-			Song("Australia",		"Jessica Mauboy",				"We Got Love",		 			184	),
-			Song("Finland",			"Saara Aalto",					"Monsters",						180	),
-			Song("Bulgaria",		"Equinox",						"Bones",						179	),
-			Song("Moldova",			"DoReDoS",						"My Lucky Day",				 	182	),
-			Song("Sweden",			"Benjamin Ingrosso",			"Dance You Off",			 	180	),
-			Song("Hungary",			"AWS",							"Viszlát nyár",					177	),
-			Song("Israel",			"Netta",						"Toy",							180	),
-			Song("Netherlands",		"Waylon",						"Outlaw in 'Em",			 	176	),
-			Song("Ireland",			"Ryan O'Shaughnessy",			"Together",						176	),
-			Song("Cyprus",			"Eieni Foureira",				"Fuego",						183	),
-			Song("Italy",			"Ermal Meta & Fabrizio Moro",	"Non mi avete fatto niente",	182	)
+			Song("Ukraine",			"Mélovin",						"Under the Ladder",	 			179,	"🇺🇦"	),
+			Song("Spain",			"Amaia & Alfred",				"Tu Canción",					179,	"🇪🇸"	),
+			Song("Slovenia",		"Lea Sirk",						"Hvala ne!",					180,	"🇸🇮"	),
+			Song("Lithuania",		"Ieva Zasimauskaité",			"When We're Old",			 	180,	"🇱🇹"	),
+			Song("Austria",			"Cesár Sampson",				"Nobody But You",			 	183,	"🇦🇹"	),
+			Song("Estonia",			"Elina Nechayeva",				"La forza",		 				184,	"🇪🇪"	),
+			Song("Norway",			"Alexander Rybak",				"That's How You Write A Song",	180,	""	),
+			Song("Portugal",		"Cláudia Pascoal",				"O jardim",						138,	""	),
+			Song("United Kingdom",	"SuRie",						"Storm",						177,	""	),
+			Song("Serbia",			"Sanja Ilic & Balkanika",		"Nova Deca",				 	187,	""	),
+			Song("Germany",			"Michael Schulte",				"You Let Me Walk Alone",		177,	""	),
+			Song("Albania",			"Eugent Bushpepa",				"Mall",		 					187,	""	),
+			Song("France",			"Madame Monsieur",				"Mercy",						182,	""	),
+			Song("Czech Republic",	"Mikolas Josef",				"Lie To Me",				 	170,	""	),
+			Song("Denmark",			"Rasmussen",					"Higher Ground",				183,	""	),
+			Song("Australia",		"Jessica Mauboy",				"We Got Love",		 			184,	""	),
+			Song("Finland",			"Saara Aalto",					"Monsters",						180,	""	),
+			Song("Bulgaria",		"Equinox",						"Bones",						179,	""	),
+			Song("Moldova",			"DoReDoS",						"My Lucky Day",				 	182,	""	),
+			Song("Sweden",			"Benjamin Ingrosso",			"Dance You Off",			 	180,	""	),
+			Song("Hungary",			"AWS",							"Viszlát nyár",					177,	""	),
+			Song("Israel",			"Netta",						"Toy",							180,	""	),
+			Song("Netherlands",		"Waylon",						"Outlaw in 'Em",			 	176,	""	),
+			Song("Ireland",			"Ryan O'Shaughnessy",			"Together",						176,	""	),
+			Song("Cyprus",			"Eieni Foureira",				"Fuego",						183,	""	),
+			Song("Italy",			"Ermal Meta & Fabrizio Moro",	"Non mi avete fatto niente",	182,	""	)
 			]
 
 	for song in songs:
@@ -55,22 +55,32 @@ def before_request():
 def favicon():
     return send_from_directory(os.path.join(current_app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+def get_country_flag(country):
+	flags = {
+		"Ukraine"	: "🇺🇦",
+		"Spain"		: "🇪🇸",
+		"Slovenia"	: "🇸🇮"
+		}
+
+	return flags.get(country, "🏴󠁧󠁢󠁷󠁬󠁳󠁿")
+
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
 	
-#	fill_db_with_data()
+	#fill_db_with_data()
 
-	current_song_index = 3	# where we are in the running order
+	current_song_index = 20	# where we are in the running order
 
 	all_songs = Song.get_all_songs_before_and_including(current_song_index)
 
-	form = []	# dunno if I need all this but eh
+	form = [] #[len(all_songs)]	# dunno if I need all this but eh
+	voted_for = [None] * len(all_songs)
 
 	for i, song in enumerate(all_songs):
-		pref = "{}".format(song.id)
-		form.append(VoteForm(prefix=pref))
+		form.append(VoteForm(prefix=song.country))
 
 		if form[i].validate_on_submit():
 			vote = Vote(form[i].vote.data, song.id, current_user.id)
@@ -78,8 +88,13 @@ def index():
 
 			db.session.add(vote)
 			db.session.commit()
-	
-	return render_template('index.html', title='Home', song_finished=True, form=form, songs=all_songs, time_left=60)
+
+		if Vote.has_voted_for_song(song.id, current_user.id):
+			voted_for[i] = True
+		else:
+			voted_for[i] = False
+
+	return render_template('index.html', title='Home', form=form, songs=all_songs, voted_for=voted_for)
 
 @bp.route('/user/<username>')
 @login_required
