@@ -40,8 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\" />
+    <Folder Include="app\errors\" />
     <Folder Include="app\main\" />
     <Folder Include="app\auth\" />
+    <Folder Include="app\helper\" />
     <Folder Include="app\static\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\auth\" />
@@ -64,6 +66,9 @@
     <Compile Include="app\email.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app\errors\handlers.py" />
+    <Compile Include="app\errors\__init__.py" />
+    <Compile Include="app\helper\database_helpers.py" />
     <Compile Include="app\main\forms.py">
       <SubType>Code</SubType>
     </Compile>
@@ -96,6 +101,8 @@
     <Content Include="app\templates\edit_profile.html" />
     <Content Include="app\templates\email\reset_password.html" />
     <Content Include="app\templates\email\reset_password.txt" />
+    <Content Include="app\templates\errors\404.html" />
+    <Content Include="app\templates\errors\500.html" />
     <Content Include="app\templates\index.html" />
     <Content Include="app\templates\user.html" />
     <Content Include="app\templates\_vote.html" />

@@ -263,3 +263,4 @@ __pycache__/
 /Eurovision/Eurovision/app.db
 /Eurovision/Eurovision/migrations
 /Eurovision/Eurovision/logs
+/Eurovision/Eurovision/.vscode

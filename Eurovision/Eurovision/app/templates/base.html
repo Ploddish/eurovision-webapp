@@ -9,7 +9,7 @@
 <nav class="navbar sticky-top navbar-light bg-light">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="{{ url_for('main.index') }}">
+			<a class="navbar-brand" href="{{ url_for('main.index') }}"></a>
 				<img src="/static/icon.png" />
 			</a>
 		</div>
@@ -20,6 +20,7 @@
 			<li class="nav-item">
 				<a class="nav-link" href="{{ url_for('main.user', username=current_user.username) }}"><img src="{{ current_user.avatar(20) }}"> {{current_user.username}}</a>
 			</li>
+			<li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
 			{% endif %}
 		</ul>
 	</div>

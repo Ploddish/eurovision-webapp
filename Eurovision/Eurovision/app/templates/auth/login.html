@@ -1,12 +1,17 @@
 ﻿{% extends 'base.html' %}
-{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
 
 <h1>Sign In</h1>
 <div class="row">
 	<div class="col-md-6">
-		{{ wtf.quick_form(form) }}
+		<form method="POST">
+			{{ form.csrf_token }}
+			<p>Username: {{ form.username() }}</p>
+			<p>Password: {{ form.password() }}</p>
+			<p>Remember Me: {{ form.remember_me() }}</p>
+			<p>{{ form.submit() }}</p>
+		</form>
 	</div>
 	<div class="col-md-4" style="margin-top:25px">
 		<div class="panel panel-default">
