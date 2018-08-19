@@ -35,7 +35,7 @@ def simple_register():
 		if existing_user is not None:
 			if server_data.is_user_logged_in(existing_user.id):
 				flash("Someone with the username {} already exists! Try another name".format(user.username))
-				return render_template('auth/simple_register.html', title='Register', form=form)
+				return render_template('auth/simple_register.html', start_time=server_data.start_time, now=datetime.utcnow(), title='Register', form=form)
 			print("User {} already exists, so we're going to log them in.".format(existing_user.username))
 			login_eurovision_user(existing_user, remember=True)
 			return redirect(url_for('main.index'))

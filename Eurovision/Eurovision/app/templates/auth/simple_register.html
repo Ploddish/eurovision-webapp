@@ -4,7 +4,8 @@
 
 <div class="jumbotron jumbotron-fluid">
 	<div class="container">
-		<h3 class="display-4">Eurovision starts in {{ moment(start_time).fromTime(now) }}</h3>
+		<h1>🏳️‍🌈 Welcome! 🏳️‍🌈</h1>
+		<p class="lead">Eurovision starts in {{ moment(start_time).fromTime(now) }}</b>
 	</div>
 </div>
 
@@ -15,10 +16,10 @@
 <form method="POST">
 	{{ form.csrf_token }}
 	<div class="form-row">
-		<div class="col-sm-3 my-1">
+		<div class="col-sm-2 my-1">
 			{{ form.username(class="form-control", placeholder="your name") }}
 		</div>
-		<div class="col-auto my-1">
+		<div class="col-sm-2 my-1">
 			{{ form.emoji(class="form-control", placeholder="🔥 notification emoji 🔥") }}
 		</div>
 		<div class="col-auto my-1">

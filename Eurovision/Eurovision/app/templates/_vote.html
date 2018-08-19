@@ -1,7 +1,5 @@
 ﻿
-
 <div class="card">
-	
 	<div class="card-header">
 		{{ song.country_flag }} {{ song.country }}
 	</div>
@@ -9,16 +7,22 @@
 	<div class="card-body">
 		<div class="card-title">{{ song.name }} - {{ song.artist }}
 			<form id="{{vote_index}}" action="" method="post" novalidate>
+				{{ form[vote_index].csrf_token }}
+
 				<div class="form-row">
-					{{ form[vote_index].csrf_token }}
-					{{ form[vote_index].vote(min=1, max=12, class="form-control-range") }}
+					{% set on_input = 'output' + vote_index|string + '.value = vote_' + song.country + '.value' %} 
+					<div class="col-10 my-1">
+							{{ form[vote_index].vote(id='vote_' + song.country, min=1, max=12, class="form-control-range", oninput=on_input) }}
+					</div>
+					<div class="col-2 my-1">
+						<h1>
+							<output id="{{ 'output' + vote_index|string }}" name="output" form="{{vote_index}}" for="{{ form[vote_index].vote.name }}">0</output>
+						</h1>
+					</div>
 				</div>
 				<div class="form-row">
-					<div class="col">
-						<output name="output" form="{{vote_index}}" for="{{ form[vote_index].vote.name }}">0</output>
-					</div>
-					<div class="col">
-						{{ form[vote_index].submit(class="btn btn-primary") }}
+					<div class="col-auto my-1">
+						{{ form[vote_index].submit(class="btn btn-primary btn-lrg") }}
 					</div>
 				</div>
 			</form>
