@@ -3,7 +3,7 @@
 {% block app_content %}
 <table class="table table-hover">
 	<tr>
-		<td width="256px"><img src="{{ user.avatar(256) }}"></td>
+		<td><h1>{{ user.avatar() }}</h1></td>
 		<td>
 			<h1>{{ user.username }}</h1>
 			{% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
@@ -23,6 +23,12 @@
 				{% endif %}
 			-->
 		</td>
+	</tr>
+	<tr>
+		<td>Votes:</td>
+	</tr>
+	<tr>
+		<td>Wales 10/10</td>
 	</tr>
 </table>
 {% endblock %}

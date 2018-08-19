@@ -44,6 +44,7 @@
     <Folder Include="app\main\" />
     <Folder Include="app\auth\" />
     <Folder Include="app\helper\" />
+    <Folder Include="app\server\" />
     <Folder Include="app\static\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\auth\" />
@@ -78,6 +79,7 @@
     <Compile Include="app\main\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app\server\server_data.py" />
     <Compile Include="app\__init__.py">
       <SubType>Code</SubType>
     </Compile>

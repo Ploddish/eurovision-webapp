@@ -3,45 +3,50 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	{{ moment.include_jquery() }}
+	{{ moment.include_moment() }}
 </head>
 
-
-<nav class="navbar sticky-top navbar-light bg-light">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="{{ url_for('main.index') }}"></a>
-				<img src="/static/icon.png" />
-			</a>
-		</div>
-		<ul class="nav navbar-nav navbar-right">
-			{% if current_user.is_anonymous %}
-			<li><a href="{{ url_for('auth.login') }}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>  Login</a></li>
-			{% else %}
-			<li class="nav-item">
-				<a class="nav-link" href="{{ url_for('main.user', username=current_user.username) }}"><img src="{{ current_user.avatar(20) }}"> {{current_user.username}}</a>
-			</li>
-			<li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+<body style="min-height: 75rem; padding-top: 4.5rem;">
+	<nav class="navbar navbar-expand fixed-top navbar-light bg-light border-bottom shadow-sm">
+		<a class="navbar-brand" href="{{ url_for('main.index') }}">
+			<img src="/static/icon.png" />
+		</a>
+		
+		<ul class="navbar-nav ml-auto">
+			{% if not current_user.is_anonymous %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url_for('main.user', username=current_user.username) }}">{{ current_user.avatar() }} {{ current_user.username }} </a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+				</li>
 			{% endif %}
 		</ul>
-	</div>
-</nav>
+		
+	</nav>
 
 
 {% block content %}
-<div class="container">
-	{% with messages = get_flashed_messages() %}
-	{% if messages %}
-	{% for message in messages %}
-	<div class="alert alert-info" role="alert">{{ message }}</div>
-	{% endfor %}
-	{% endif %}
-	{% endwith %}
+<main role= "main">
+	<div class="container">
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		{% for message in messages %}
+		<div class="alert alert-info" role="alert">{{ message }}</div>
+		{% endfor %}
+		{% endif %}
+		{% endwith %}
 
-	{# application content needs to be provided in the app_content block #}
-	{% block app_content %}{% endblock %}
-</div>
+		{# application content needs to be provided in the app_content block #}
+		{% block app_content %}{% endblock %}
+	</div>
+</main>
+</body>
+
 {% endblock %}
 
 {% block scripts %}
-{{ moment.include_moment() }}
+
 {% endblock %}

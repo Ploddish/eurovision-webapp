@@ -1,0 +1,39 @@
+﻿{% extends 'base.html' %}
+
+{% block app_content %}
+
+<div class="jumbotron jumbotron-fluid">
+	<div class="container">
+		<h3 class="display-4">Eurovision starts in {{ moment(start_time).fromTime(now) }}</h3>
+	</div>
+</div>
+
+<hr>
+
+<h3>Create a User</h1>
+
+<form method="POST">
+	{{ form.csrf_token }}
+	<div class="form-row">
+		<div class="col-sm-3 my-1">
+			{{ form.username(class="form-control", placeholder="your name") }}
+		</div>
+		<div class="col-auto my-1">
+			{{ form.emoji(class="form-control", placeholder="🔥 notification emoji 🔥") }}
+		</div>
+		<div class="col-auto my-1">
+			<select class="custom-select mr-sm-" id="inlineFormCustomSelect">
+				<option selected>Notification Sound...</option>
+				<option value="1">Fart</option>
+				<option value="2">Bell</option>
+				<option value="3">Cow</option>
+			</select>
+		</div>
+		<div class="col-auto my-1">
+			{{ form.submit(class="btn btn-primary") }}
+		</div>
+	</div>
+</form>
+
+
+{% endblock %}

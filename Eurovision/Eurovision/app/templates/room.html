@@ -1,0 +1,19 @@
+﻿{% extends "base.html" %}
+
+{% block app_content %}
+	
+	<h2>{{ room_name }} party room</h2>
+
+	{% for song in songs %}
+	
+		{% set vote_index = loop.index0 %}
+		{% include '_vote.html' %}
+		
+	{% endfor %}
+	
+	{% if songs.__len__() == 0 %}
+	<div class="alert alert-danger" role="alert">No Songs in Database</div>
+	{% endif %}
+
+	<h2>Bottom of the page.</h2>
+{% endblock %}

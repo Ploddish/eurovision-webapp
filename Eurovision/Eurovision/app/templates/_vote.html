@@ -3,20 +3,26 @@
 <div class="card">
 	
 	<div class="card-header">
-		{{ song.country }} {{ song.country_flag }}
+		{{ song.country_flag }} {{ song.country }}
 	</div>
 	
 	<div class="card-body">
-		<div class="card-title">{{ song.name }} - {{ song.artist }}</div>
-
-		<form id="{{vote_index}}" action="" method="post" novalidate>
-			{{ form[vote_index].csrf_token }}
-			{{ form[vote_index].vote(min=1, max=12, oninput="this.form.") }}
-
-			<output name="output" form="{{vote_index}}" for="{{ form[vote_index].vote.name }}">0</output>
-
-			{{ form[vote_index].submit() }}
-		</form>
+		<div class="card-title">{{ song.name }} - {{ song.artist }}
+			<form id="{{vote_index}}" action="" method="post" novalidate>
+				<div class="form-row">
+					{{ form[vote_index].csrf_token }}
+					{{ form[vote_index].vote(min=1, max=12, class="form-control-range") }}
+				</div>
+				<div class="form-row">
+					<div class="col">
+						<output name="output" form="{{vote_index}}" for="{{ form[vote_index].vote.name }}">0</output>
+					</div>
+					<div class="col">
+						{{ form[vote_index].submit(class="btn btn-primary") }}
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
 

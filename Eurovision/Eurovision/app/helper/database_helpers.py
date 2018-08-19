@@ -33,7 +33,7 @@ def fill_db_with_data():
 
 	for song in songs:
 		print("Actually Adding Song ", song.name)
-		db.session.add(song)
+		db.session.add(song)		#pylint: disable=E1101
 
-	db.session.commit()
+	db.session.commit()			#pylint: disable=E1101
 

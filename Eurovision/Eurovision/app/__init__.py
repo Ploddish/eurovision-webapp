@@ -8,15 +8,18 @@ from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_moment import Moment
 from config import Config
+from app.server.server_data import Local_Server_Data
 
 db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
-login.login_view = 'auth.login'
-login.login_message = 'toot Please log in to access this page.'
+login.login_view = 'auth.simple_register'
+login.login_message = "Create a user to continue."
 mail = Mail()
 moment = Moment()
+server_data = Local_Server_Data()
 
+password_for_simple_login = "party"
 
 def create_app(config_class=Config):
 	app = Flask(__name__)
@@ -36,8 +39,7 @@ def create_app(config_class=Config):
 
 	from app.main import bp as main_bp
 	app.register_blueprint(main_bp)
-
-
+	
 	if not app.debug and not app.testing:
 		if app.config['MAIL_SERVER']:
 			auth = None

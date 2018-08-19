@@ -8,18 +8,18 @@ from hashlib import md5
 import json
 
 class User(UserMixin, db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(64), index=True, unique=True)
-	email = db.Column(db.String(120), index=True, unique=True)
-	password_hash = db.Column(db.String(128))
-	about_me = db.Column(db.String(140))
-	last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+	id = db.Column(db.Integer, primary_key=True)						#pylint: disable=E1101
+	username = db.Column(db.String(64), index=True, unique=True)		#pylint: disable=E1101
+	email = db.Column(db.String(120), index=True, unique=True)			#pylint: disable=E1101
+	password_hash = db.Column(db.String(128))							#pylint: disable=E1101
+	about_me = db.Column(db.String(140))								#pylint: disable=E1101
+	last_seen = db.Column(db.DateTime, default=datetime.utcnow)			#pylint: disable=E1101
+	emoji = db.Column(db.String(10))									#pylint: disable=E1101
 
-	user_votes = db.relationship('Vote', backref='voter', lazy='dynamic')
+	user_votes = db.relationship('Vote', backref='voter', lazy='dynamic')	#pylint: disable=E1101
 	
-	def avatar(self, size):
-		digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-		return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
+	def avatar(self):
+		return "😃"
 
 	def set_password(self, password):
 		self.password_hash = generate_password_hash(password)
@@ -29,22 +29,6 @@ class User(UserMixin, db.Model):
 
 	def __repr__(self):
 		return '<User {}>'.format(self.username)
-
-	def get_reset_password_token(self, expires_in=600):
-		return jwt.encode(
-			{'reset_password': self.id, 'exp': time() + expires_in},
-			app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
-
-	
-
-	@staticmethod
-	def verify_reset_password_token(token):
-		try:
-			id = jwt.decode(token, app.config['SECRET_KEY'],
-							algorithms=['HS256'])['reset_password']
-		except:
-			return
-		return User.query.get(id)
 
 	def get_reset_password_token(self, expires_in=600):
 		return jwt.encode(
@@ -62,14 +46,18 @@ class User(UserMixin, db.Model):
 
 @login.user_loader
 def load_user(id):
+	if not id.isdigit():
+		print("HELP!")
+		return User.query.first()
+
 	return User.query.get(int(id))
 
 class Vote(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	vote_value = db.Column(db.Integer)
-	song_id = db.Column(db.Integer, db.ForeignKey("song.id"))
-	vote_time = db.Column(db.DateTime, default=datetime.utcnow)
-	voter_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+	id = db.Column(db.Integer, primary_key=True)					#pylint: disable=E1101
+	vote_value = db.Column(db.Integer)								#pylint: disable=E1101
+	song_id = db.Column(db.Integer, db.ForeignKey("song.id"))		#pylint: disable=E1101
+	vote_time = db.Column(db.DateTime, default=datetime.utcnow)		#pylint: disable=E1101
+	voter_id = db.Column(db.Integer, db.ForeignKey("user.id"))		#pylint: disable=E1101
 	
 	def __repr__(self):
 		return '<Vote {}>'.format(self.id)
@@ -79,29 +67,15 @@ class Vote(db.Model):
 		self.song_id = song_id
 		self.voter_id = voter_id
 
-	def has_voted_for_song(song_id, voter_id):
-		vote_count = Vote.query.filter(Vote.song_id == song_id).\
-			filter(Vote.voter_id == voter_id).count()
-
-		return vote_count > 0
-
-		
-
 class Song(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(64), index=True, unique=True)
-	artist = db.Column(db.String(64), index=True)
-	country = db.Column(db.String(30), index=True, unique=True)
-	length = db.Column(db.Integer)
-	time_started = db.Column(db.DateTime)
-	country_flag = db.Column(db.String(10))
-
-	def get_all_songs():
-		return Song.query.all()
-
-	def get_all_songs_before_and_including(song_index=1):
-		return Song.query.filter(Song.id <= song_index).all()
-
+	id = db.Column(db.Integer, primary_key=True)					#pylint: disable=E1101
+	name = db.Column(db.String(64), index=True, unique=True)		#pylint: disable=E1101
+	artist = db.Column(db.String(64), index=True)					#pylint: disable=E1101
+	country = db.Column(db.String(30), index=True, unique=True)		#pylint: disable=E1101
+	length = db.Column(db.Integer)									#pylint: disable=E1101
+	time_started = db.Column(db.DateTime)							#pylint: disable=E1101
+	country_flag = db.Column(db.String(10))							#pylint: disable=E1101
+	
 	#def get_all_songs_voted_for(self, user):
 
 	
