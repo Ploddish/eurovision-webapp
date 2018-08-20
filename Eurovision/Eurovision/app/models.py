@@ -18,9 +18,6 @@ class User(UserMixin, db.Model):
 
 	user_votes = db.relationship('Vote', backref='voter', lazy='dynamic')	#pylint: disable=E1101
 	
-	def avatar(self):
-		return "😃"
-
 	def set_password(self, password):
 		self.password_hash = generate_password_hash(password)
 

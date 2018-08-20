@@ -2,14 +2,36 @@
 
 {% block app_content %}
 <h1>Edit Profile</h1>
-<div class="row">
-	<div class="col-md-4">
-		<form method="POST">
-			{{ form.csrf_token }}
-			{{ form.username() }}
-			{{ form.about_me() }}
-			{{ form.submit() }}
-		</form>
-	</div>
+<div class="container">
+	<form method="POST">
+		{{ form.csrf_token }}
+		<div class="form-row">
+			<div class="col-sm-2 my-1">
+				{{ form.username(class="form-control") }}
+				<small id="nameHelp" class="form-text text-muted">Username</small>
+			</div>
+			<div class="col-sm-2 my-1">
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<div class="input-group-text">😁</div>
+					</div>
+					{{ form.emoji(class="form-control") }}
+				</div>
+				<small id="emojiHelp" class="form-text text-muted">Avatar</small>
+			</div>
+			<div class="col-auto my-1">
+				<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+					<option selected>Notification Sound...</option>
+					<option value="1">Fart</option>
+					<option value="2">Bell</option>
+					<option value="3">Cow</option>
+				</select>
+				<small id="soundHelp" class="form-text text-muted">fart sounds</small>
+			</div>
+			<div class="col-auto my-1">
+				{{ form.submit(class="btn btn-primary") }}
+			</div>
+		</div>
+	</form>
 </div>
 {% endblock %}

@@ -17,18 +17,26 @@
 	{{ form.csrf_token }}
 	<div class="form-row">
 		<div class="col-sm-2 my-1">
-			{{ form.username(class="form-control", placeholder="your name") }}
+			{{ form.username(class="form-control", placeholder="name") }}
+			<small id="nameHelp" class="form-text text-muted">Your username</small>
 		</div>
 		<div class="col-sm-2 my-1">
-			{{ form.emoji(class="form-control", placeholder="🔥 notification emoji 🔥") }}
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<div class="input-group-text">😁</div>
+				</div>
+				{{ form.emoji(class="form-control", placeholder="emoji 🔥") }}
+			</div>
+			<small id="emojiHelp" class="form-text text-muted">Your avatar</small>
 		</div>
 		<div class="col-auto my-1">
-			<select class="custom-select mr-sm-" id="inlineFormCustomSelect">
+			<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 				<option selected>Notification Sound...</option>
 				<option value="1">Fart</option>
 				<option value="2">Bell</option>
 				<option value="3">Cow</option>
 			</select>
+			<small id="soundHelp" class="form-text text-muted">The sound you make</small>
 		</div>
 		<div class="col-auto my-1">
 			{{ form.submit(class="btn btn-primary") }}

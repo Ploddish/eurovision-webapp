@@ -10,13 +10,13 @@
 				{{ form[vote_index].csrf_token }}
 
 				<div class="form-row">
-					{% set on_input = 'output' + vote_index|string + '.value = vote_' + song.country + '.value' %} 
+					{% set on_input = 'output' + vote_index|string + '.value = vote_' + vote_index|string + '.value' %} 
 					<div class="col-10 my-1">
-							{{ form[vote_index].vote(id='vote_' + song.country, min=1, max=12, class="form-control-range", oninput=on_input) }}
+							{{ form[vote_index].vote(id='vote_' + vote_index|string, min=1, max=12, class="form-control-range", oninput=on_input) }}
 					</div>
 					<div class="col-2 my-1">
 						<h1>
-							<output id="{{ 'output' + vote_index|string }}" name="output" form="{{vote_index}}" for="{{ form[vote_index].vote.name }}">0</output>
+							<output id="{{ 'output' + vote_index|string }}" name="output" form="{{vote_index}}" for="{{ form[vote_index].vote.name }}">6</output>
 						</h1>
 					</div>
 				</div>

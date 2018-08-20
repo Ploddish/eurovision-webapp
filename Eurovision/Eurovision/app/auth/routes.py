@@ -29,7 +29,7 @@ def simple_register():
 	
 	form = SimpleRegistrationForm()
 	if form.validate_on_submit():
-		user = User(username=form.username.data)
+		user = User(username=form.username.data.lower(), emoji=form.emoji.data)
 
 		existing_user = User.query.filter_by(username=form.username.data).first()
 		if existing_user is not None:

@@ -89,12 +89,11 @@ def edit_profile():
 	form = EditProfileForm(current_user.username)
 	if form.validate_on_submit():
 		current_user.username = form.username.data
-		current_user.about_me = form.about_me.data
+		current_user.emoji = form.emoji.data
 		db.session.commit()		#pylint: disable=E1101
 		flash('Your changes have been saved.')
 		return redirect(url_for('main.user', username=current_user.username))
 	elif request.method == 'GET':
 		form.username.data = current_user.username
-		form.about_me.data = current_user.about_me
-	return render_template('edit_profile.html', title='Edit Profile',
-						   form=form)
+		form.emoji.data = current_user.emoji
+	return render_template('edit_profile.html', title='Edit Profile', form=form)
