@@ -34,7 +34,7 @@ def favicon():
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-	return render_template('index.html', title='Home', rooms=server_data.rooms)
+	return render_template('index.html', title='Home', user=current_user, rooms=server_data.rooms)
 
 def has_voted_for_song(song_id, voter_id):
 	vote_count = Vote.query.filter(Vote.song_id == song_id).\

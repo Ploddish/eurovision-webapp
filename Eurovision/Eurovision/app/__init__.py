@@ -36,6 +36,9 @@ def create_app(config_class=Config):
 	
 	from app.auth import bp as auth_bp
 	app.register_blueprint(auth_bp, url_prefix='/auth')
+	
+	from app.admin import bp as admin_bp
+	app.register_blueprint(admin_bp, url_prefix='/admin')
 
 	from app.main import bp as main_bp
 	app.register_blueprint(main_bp)
@@ -69,6 +72,9 @@ def create_app(config_class=Config):
 
 		app.logger.setLevel(logging.INFO)
 		app.logger.info('Eurovison server starting!')
+
+		with app.app_context():
+			server_data.create_test_rooms()
 
 	return app
 

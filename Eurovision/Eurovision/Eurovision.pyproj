@@ -44,14 +44,19 @@
     <Folder Include="app\main\" />
     <Folder Include="app\auth\" />
     <Folder Include="app\helper\" />
+    <Folder Include="app\admin\" />
     <Folder Include="app\server\" />
     <Folder Include="app\static\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\auth\" />
     <Folder Include="app\templates\errors\" />
     <Folder Include="app\templates\email\" />
+    <Folder Include="app\templates\admin\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="app\admin\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\auth\email.py">
       <SubType>Code</SubType>
     </Compile>
@@ -64,6 +69,10 @@
     <Compile Include="app\auth\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app\admin\routes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\admin\__init__.py" />
     <Compile Include="app\email.py">
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +104,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\static\icon.png" />
+    <Content Include="app\templates\admin\home.html" />
+    <Content Include="app\templates\admin\songs.html" />
     <Content Include="app\templates\auth\login.html" />
     <Content Include="app\templates\auth\register.html" />
     <Content Include="app\templates\auth\reset_password.html" />
@@ -106,6 +117,7 @@
     <Content Include="app\templates\errors\404.html" />
     <Content Include="app\templates\errors\500.html" />
     <Content Include="app\templates\index.html" />
+    <Content Include="app\templates\room.html" />
     <Content Include="app\templates\user.html" />
     <Content Include="app\templates\_vote.html" />
   </ItemGroup>

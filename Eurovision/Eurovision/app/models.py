@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
 	about_me = db.Column(db.String(140))								#pylint: disable=E1101
 	last_seen = db.Column(db.DateTime, default=datetime.utcnow)			#pylint: disable=E1101
 	emoji = db.Column(db.String(10))									#pylint: disable=E1101
+	admin = db.Column(db.Boolean, default=False)						#pylint: disable=E1101
 
 	user_votes = db.relationship('Vote', backref='voter', lazy='dynamic')	#pylint: disable=E1101
 	

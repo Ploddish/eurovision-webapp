@@ -1,0 +1,49 @@
+﻿{% extends "base.html" %}
+
+{% block app_content %}
+
+<h1>Song Database</h1>
+
+<table>
+	<div class="container">
+		{% for song in songs %}
+
+		<form>
+			{{ forms[loop.index0].csrf_token }}
+
+			<div class="form-row">
+				<div class="col-1">
+					{{ forms[loop.index0].id(class="form-control") }}
+				</div>
+
+				<div class="col-3">
+					{{ forms[loop.index0].name(class="form-control") }}
+				</div>
+
+				<div class="col-3">
+					{{ forms[loop.index0].artist(class="form-control") }}
+				</div>
+
+				<div class="col">
+					{{ forms[loop.index0].country(class="form-control") }}
+				</div>
+
+				<div class="col">
+					{{ forms[loop.index0].length(class="form-control") }}
+				</div>
+
+				<div class="col-1">
+					{{ forms[loop.index0].flag(class="form-control") }}
+				</div>
+
+				<div class="col">
+					{{ forms[loop.index0].delete(class="btn btn-primary btn-lrg")}}
+				</div>
+			</div>
+		</form>
+
+		{% endfor %}
+	</div>
+</table>
+
+{% endblock %}

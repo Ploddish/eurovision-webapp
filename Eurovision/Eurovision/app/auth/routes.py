@@ -12,14 +12,11 @@ from app import server_data
 from datetime import datetime
 
 def login_eurovision_user(user, remember):
-	print("Logging in user ", user.username)
-
 	if user is None:
 		return
 
-	server_data.set_user_logged_in(user.id)
 	if login_user(user, remember=remember):
-		print("Successfully logged in user")
+		server_data.set_user_logged_in(user.id)
 
 
 @bp.route('/simple_register', methods=['GET', 'POST'])
@@ -29,17 +26,20 @@ def simple_register():
 	
 	form = SimpleRegistrationForm()
 	if form.validate_on_submit():
-		user = User(username=form.username.data.lower(), emoji=form.emoji.data)
+		current_app.logger.info("Logging in user {}".format(form.username.data))
 
-		existing_user = User.query.filter_by(username=form.username.data).first()
+		existing_user = User.query.filter_by(username=form.username.data.lower()).first()	# check if a user of this name exists
 		if existing_user is not None:
 			if server_data.is_user_logged_in(existing_user.id):
-				flash("Someone with the username {} already exists! Try another name".format(user.username))
+				flash("Someone with the username {} already exists! Try another name".format(form.username.data))
 				return render_template('auth/simple_register.html', start_time=server_data.start_time, now=datetime.utcnow(), title='Register', form=form)
-			print("User {} already exists, so we're going to log them in.".format(existing_user.username))
+			current_app.logger.info("User {} already exists, so we're going to log them in.".format(existing_user.username))
 			login_eurovision_user(existing_user, remember=True)
 			return redirect(url_for('main.index'))
 		
+		user = User(username=form.username.data.lower(), emoji=form.emoji.data)
+
+		current_app.logger.info("User {} doesn't exist, so we're going to add them.".format(user.username))
 		db.session.add(user)		#pylint: disable=E1101
 		db.session.commit()			#pylint: disable=E1101
 		current_app.logger.info("New user {} has been added!".format(user.username))

@@ -1,13 +1,17 @@
 ﻿{% extends "base.html" %}
 
 {% block app_content %}
-	
+
+{% if user.admin %}
+<p>
+	<h2><a href="{{ url_for('admin.home') }}">Admin panel</a></h2>
+</p>
+{% endif %}
+
 {% for room in rooms %}
 <p>
-	<h3>Join room <a href= "{{ url_for('main.room', room_name=room.get_room_name()) }}"><b>{{ room.get_room_name() }}</b></a></h3>
+	<h3>Join room <a href="{{ url_for('main.room', room_name=room.get_room_name()) }}"><b>{{ room.get_room_name() }}</b></a></h3>
 </p>
 {% endfor %}
 
-<h4>Add Room</h4>
-	
 {% endblock %}
